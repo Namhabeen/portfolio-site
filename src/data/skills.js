@@ -13,7 +13,7 @@ export const SKILLS = [
   { title: 'Data Processing', items: ['pandas', 'openpyxl', 'CSV/Excel', 'Crawling', 'Batch', 'Scheduler'] },
   { title: 'BI & Visualization', items: ['Power BI', 'Dashboard Design', 'KPI Definition'] },
   { title: 'Automation & AI', items: ['Apps Script', 'n8n', 'RPA', 'LLM API', 'Prompt Design'] },
-  { title: 'Cloud & DevOps', items: ['AWS', 'Docker', 'Linux', 'Jenkins', 'GitLab CI/CD'] },
+  { title: 'Cloud & DevOps', items: ['AWS', 'Docker', 'Linux', 'Jenkins', 'GitHub Actions', 'GitLab CI/CD'] },
   { title: 'Dev Tools', items: ['Cursor', 'Claude Code', 'Git', 'Postman'] },
   { title: 'Planning & Collaboration', items: ['Requirement Analysis', 'API Spec', 'Notion', 'Figma', 'Jira'] },
 ];

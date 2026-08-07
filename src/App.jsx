@@ -21,12 +21,12 @@ import { getTheme } from './theme.js';
  * @returns {JSX.Element}
  */
 export default function Portfolio() {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [lang, setLang] = useState('ko');
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
 
-  const { projects, positioning, loading, error } = usePortfolioData();
+  const { projects, positioning, resumeUrl, loading, error } = usePortfolioData();
   const theme = getTheme(dark);
 
   return (
@@ -49,7 +49,7 @@ export default function Portfolio() {
       />
 
       <Hero lang={lang} positioning={positioning} theme={theme} />
-      <About lang={lang} theme={theme} />
+      <About lang={lang} resumeUrl={resumeUrl} theme={theme} />
       <Skills lang={lang} theme={theme} />
       <Projects
         lang={lang}

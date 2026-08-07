@@ -27,6 +27,7 @@ function getSlugFromUrl() {
  * @returns {{
  *   projects: Array<object>,
  *   positioning: string | null,
+ *   resumeUrl: string | null,
  *   loading: boolean,
  *   error: string | null,
  * }} The current fetch state.
@@ -34,6 +35,7 @@ function getSlugFromUrl() {
 export function usePortfolioData() {
   const [projects, setProjects] = useState([]);
   const [positioning, setPositioning] = useState(null);
+  const [resumeUrl, setResumeUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -56,6 +58,7 @@ export function usePortfolioData() {
       .then((data) => {
         setProjects(data.projects || []);
         setPositioning(data.positioning || null);
+        setResumeUrl(data.resumeUrl || null);
         setLoading(false);
       })
       .catch((err) => {
@@ -64,5 +67,5 @@ export function usePortfolioData() {
       });
   }, []);
 
-  return { projects, positioning, loading, error };
+  return { projects, positioning, resumeUrl, loading, error };
 }

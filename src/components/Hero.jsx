@@ -1,4 +1,4 @@
-import { ArrowDown, Sparkles } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 
 /**
  * Landing section: headline, intro copy, and primary calls to action.
@@ -20,8 +20,7 @@ export default function Hero({ lang, positioning, theme }) {
     <section id="home" className="min-h-screen flex items-center justify-center px-6 pt-24 pb-16 relative">
       <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
         <div className="lg:col-span-3 space-y-6">
-          <span className={`inline-flex items-center gap-1.5 text-sm font-medium px-3 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent}`}>
-            <Sparkles size={14} />
+          <span className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent}`}>
             Product Engineer &middot; AX Engineer
           </span>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
@@ -55,9 +54,8 @@ export default function Hero({ lang, positioning, theme }) {
           </div>
         </div>
       </div>
-      <a href="#about" className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center text-sm ${muted} hover:${accent} transition-colors`}>
-        <span className="mb-2">{lang === 'ko' ? '스크롤' : 'Scroll'}</span>
-        <ArrowDown size={16} />
+      <a href="#about" className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center ${muted} hover:${accent} transition-colors`}>
+        <ArrowDown size={20} className="animate-bounce" />
       </a>
     </section>
   );

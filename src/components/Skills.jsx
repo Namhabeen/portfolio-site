@@ -9,10 +9,10 @@ import { SKILLS } from '../data/skills.js';
  * @returns {JSX.Element}
  */
 export default function Skills({ lang, theme }) {
-  const { muted, border, cardBg, accentBg } = theme;
+  const { muted, border, cardBg, sectionAlt, accentBg } = theme;
 
   return (
-    <section id="skills" className="py-24 px-6">
+    <section id="skills" className={`py-24 px-6 ${sectionAlt}`}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'ko' ? '핵심 역량' : 'Skills & Expertise'}</h2>

@@ -16,7 +16,7 @@ export default function ProjectCard({ project, onSelect, theme }) {
   return (
     <button
       onClick={onSelect}
-      className={`group text-left rounded-xl border ${border} ${cardBg} p-6 flex flex-col hover:-translate-y-0.5 transition-all`}
+      className={`group text-left rounded-xl border ${border} ${cardBg} p-6 flex flex-col hover:-translate-y-0.5 hover:shadow-md transition-all`}
     >
       <div className="flex items-center justify-between mb-3">
         <span className={`text-xs ${muted}`}>{project.company}</span>

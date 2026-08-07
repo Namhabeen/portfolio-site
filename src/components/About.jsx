@@ -1,15 +1,17 @@
-import { Mail, MapPin } from 'lucide-react';
+import { Building2, Download, Github, Linkedin, Mail } from 'lucide-react';
 
 /**
- * "About" section: a short bio plus contact and experience summary cards.
+ * "About" section: a short bio, career/contact cards, and a resume download CTA.
  *
  * @param {object} props
  * @param {'ko' | 'en'} props.lang - Current language.
+ * @param {string | null} props.resumeUrl - Company-specific resume URL from the backend, if any.
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
-export default function About({ lang, theme }) {
+export default function About({ lang, resumeUrl, theme }) {
   const { muted, border, cardBg, sectionAlt, accentBg } = theme;
+  const resumeHref = resumeUrl || `${import.meta.env.BASE_URL}resume/남하빈_이력서.pdf`;
 
   return (
     <section id="about" className={`py-24 px-6 ${sectionAlt}`}>
@@ -17,26 +19,80 @@ export default function About({ lang, theme }) {
         <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'ko' ? '소개' : 'About Me'}</h2>
         <div className={`h-1 w-16 mx-auto mb-10 ${accentBg} rounded-full`} />
         <p className={`${muted} leading-relaxed mb-4`}>
-          {lang === 'ko'
-            ? '커머스·제조·LMS 환경에서 반복 업무와 분산된 데이터를 발견하고, 이를 시스템과 자동화 구조로 전환해왔습니다. 요구사항 분석부터 설계·개발·배포·운영까지 전 과정을 직접 수행하며, 구축한 기능이 조직의 업무 방식으로 정착하도록 만드는 데 강점이 있습니다.'
-            : 'Across commerce, manufacturing, and LMS environments, I find repetitive tasks and fragmented data, then turn them into systems and automation. I own the full loop — requirements to design, build, deploy, and operations — and focus on making what I build stick as part of how the team actually works.'}
+          {lang === 'ko' ? (
+            <>
+              커머스·제조·LMS 환경에서 반복 업무와 분산된 데이터를 발견해 시스템으로 전환해왔습니다.
+              <br />
+              요구사항 분석부터 설계·개발·배포·운영까지 직접 수행하며, 구축한 기능이 조직의 업무 방식으로 정착하도록 만듭니다.
+            </>
+          ) : (
+            <>
+              I find repetitive tasks and fragmented data across commerce, manufacturing, and LMS environments, then turn them into systems.
+              <br />
+              I own the full loop from requirements to design, build, deploy, and operations — making what I build stick as part of how the team works.
+            </>
+          )}
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10 max-w-xl mx-auto text-left">
-          <div className={`rounded-xl p-6 border ${border} ${cardBg}`}>
-            <h4 className="font-semibold mb-3 text-sm">{lang === 'ko' ? '연락처' : 'Contact'}</h4>
+      </div>
+
+      <div className="max-w-2xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+        <div className={`rounded-xl p-6 border ${border} ${cardBg} flex flex-col`}>
+          <h4 className="font-semibold mb-3 text-sm">{lang === 'ko' ? '경력' : 'Experience'}</h4>
+          <div className="flex-1 flex flex-col justify-end">
+            <p className="text-lg sm:text-xl font-bold mb-3">{lang === 'ko' ? '3년 11개월' : '3 yrs 11 mo'}</p>
             <ul className={`space-y-2 text-sm ${muted}`}>
-              <li className="flex items-center gap-2"><Mail size={14} /> habing1104@gmail.com</li>
-              <li className="flex items-center gap-2"><MapPin size={14} /> Seoul, South Korea</li>
-            </ul>
-          </div>
-          <div className={`rounded-xl p-6 border ${border} ${cardBg}`}>
-            <h4 className="font-semibold mb-3 text-sm">{lang === 'ko' ? '경력' : 'Experience'}</h4>
-            <ul className={`space-y-2 text-sm ${muted}`}>
-              <li>{lang === 'ko' ? '3년 11개월' : '3 yrs 11 mo'}</li>
-              <li>{lang === 'ko' ? '타라티피에스 · 컴퓨존 · 주경야독' : 'Taratps · Compuzone · Jugyeongyadok'}</li>
+              <li className="flex items-center gap-2">
+                <Building2 size={14} />
+                {lang === 'ko' ? '타라티피에스 - IT지원팀 매니저' : 'Taratps - IT Support Team Manager'}
+              </li>
+              <li className="flex items-center gap-2">
+                <Building2 size={14} />
+                {lang === 'ko' ? '컴퓨존 - 전산팀 사원' : 'Compuzone - IT Team Staff'}
+              </li>
+              <li className="flex items-center gap-2">
+                <Building2 size={14} />
+                {lang === 'ko' ? '주경야독 - 개발팀 사원' : 'Jugyeongyadok - Development Team Associate'}
+              </li>
             </ul>
           </div>
         </div>
+        <div className={`rounded-xl p-6 border ${border} ${cardBg} flex flex-col`}>
+          <h4 className="font-semibold mb-3 text-sm">{lang === 'ko' ? '연락처' : 'Contact'}</h4>
+          <div className="flex-1 flex flex-col justify-end">
+            <p className="text-lg sm:text-xl font-bold mb-3">Seoul, South Korea</p>
+            <ul className={`space-y-2 text-sm ${muted}`}>
+              <li className="flex items-center gap-2">
+                <Mail size={14} />
+                <a href="mailto:habing1104@gmail.com" className="hover:underline">
+                  habing1104@gmail.com
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Github size={14} />
+                <a href="https://github.com/Namhabeen" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  github.com/Namhabeen
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Linkedin size={14} />
+                <a href="https://www.linkedin.com/in/habeen/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  linkedin.com/in/habeen
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-10 text-center">
+        <a
+          href={resumeHref}
+          download
+          className={`inline-flex items-center gap-2 px-8 py-4 ${accentBg} text-white rounded-full font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}
+        >
+          <Download size={18} />
+          {lang === 'ko' ? '이력서 다운로드' : 'Download Resume'}
+        </a>
       </div>
     </section>
   );
