@@ -38,6 +38,7 @@ function doGet(e) {
     slug: null,
     positioning: null,
     targetJob: null,
+    resumeUrl: null,
     projects: sortByOrder_(allProjects),
   };
 
@@ -57,6 +58,7 @@ function doGet(e) {
         slug: slug,
         positioning: config.positioning,
         targetJob: config.targetJob,
+        resumeUrl: config.resumeUrl,
         projects: filtered,
       };
     }
@@ -168,6 +170,7 @@ function parseConfigPage_(page) {
     projectIds: getRelation_(p['노출프로젝트']),
     featuredIds: getRelation_(p['대표프로젝트']),
     active: p['활성여부'] ? !!p['활성여부'].checkbox : false,
+    resumeUrl: getUrl_(p['이력서URL']),
   };
 }
 
@@ -195,6 +198,10 @@ function getNumber_(prop) {
 function getRelation_(prop) {
   if (!prop || !prop.relation) return [];
   return prop.relation.map(function (r) { return r.id; });
+}
+function getUrl_(prop) {
+  if (!prop || !prop.url) return null;
+  return prop.url;
 }
 function splitLines_(text) {
   if (!text) return [];
