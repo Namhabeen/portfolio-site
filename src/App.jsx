@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { usePortfolioData } from './api/usePortfolioData.js';
 import About from './components/About.jsx';
-import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
@@ -59,7 +58,6 @@ export default function Portfolio() {
         onSelectProject={setActiveProject}
         theme={theme}
       />
-      <Contact lang={lang} theme={theme} />
       <Footer lang={lang} theme={theme} />
 
       {activeProject && (

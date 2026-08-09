@@ -41,7 +41,7 @@ export default function Hero({ lang, positioning, theme }) {
             <a href="#projects" className={`px-6 py-3 ${accentBg} text-white rounded-md font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}>
               {lang === 'ko' ? '프로젝트 보기' : 'View Projects'}
             </a>
-            <a href="#contact" className={`px-6 py-3 rounded-md font-medium border ${border} hover:bg-white/5 transition-all hover:-translate-y-0.5`}>
+            <a href="#about" className={`px-6 py-3 rounded-md font-medium border ${border} hover:bg-white/5 transition-all hover:-translate-y-0.5`}>
               {lang === 'ko' ? '연락하기' : 'Contact Me'}
             </a>
           </div>

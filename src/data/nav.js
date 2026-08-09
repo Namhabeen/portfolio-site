@@ -11,5 +11,4 @@ export const NAV = [
   { id: 'about', ko: '소개', en: 'About' },
   { id: 'skills', ko: '역량', en: 'Skills' },
   { id: 'projects', ko: '프로젝트', en: 'Projects' },
-  { id: 'contact', ko: '연락처', en: 'Contact' },
 ];
