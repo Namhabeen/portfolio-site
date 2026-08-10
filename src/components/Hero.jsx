@@ -25,16 +25,33 @@ export default function Hero({ lang, positioning, theme }) {
           </span>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
             {lang === 'ko' ? (
-              <>안녕하세요, <span className={accent}>남하빈</span>입니다</>
+              <>
+                안녕하세요,{' '}
+                <span className="hero-name-mask">
+                  <span className={`hero-name-text ${accent}`}>남하빈</span>
+                </span>
+                입니다
+              </>
             ) : (
-              <>Hi, I'm <span className={accent}>Habeen Nam</span></>
+              <>
+                Hi, I'm{' '}
+                <span className="hero-name-mask">
+                  <span className={`hero-name-text ${accent}`}>Habeen Nam</span>
+                </span>
+              </>
             )}
           </h1>
-          <p className={`text-lg md:text-xl ${muted} max-w-xl leading-relaxed`}>
+          <p className={`text-base md:text-lg ${muted} max-w-xl leading-relaxed`}>
             {positioning
               ? positioning
               : lang === 'ko'
-              ? '현업의 반복 업무와 분산된 데이터를 발견해, 자동화·연동 시스템으로 직접 설계하고 구축하는 백엔드 기반 엔지니어입니다.'
+              ? (
+                  <>
+                    현업의 반복 업무와 분산된 데이터를 발견해, 자동화·연동 시스템으로
+                    <br />
+                    직접 설계하고 구축하는 백엔드 기반 엔지니어입니다.
+                  </>
+                )
               : 'A backend engineer who finds repetitive, fragmented work in the field and turns it into automated, integrated systems — end to end.'}
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
@@ -47,10 +64,12 @@ export default function Hero({ lang, positioning, theme }) {
           </div>
         </div>
         <div className="lg:col-span-2 aspect-square max-w-sm mx-auto relative">
-          <div className={`absolute inset-0 border-2 rounded-2xl -m-2 -rotate-3 ${dark ? 'border-blue-500/20' : 'border-blue-200'}`} />
-          <div className={`absolute inset-0 border-2 rounded-2xl -m-2 rotate-3 ${dark ? 'border-blue-500/10' : 'border-blue-100'}`} />
-          <div className={`relative w-full h-full rounded-2xl flex items-center justify-center text-6xl font-bold ${dark ? 'bg-gradient-to-br from-blue-500/20 to-blue-500/5 text-blue-400' : 'bg-gradient-to-br from-blue-50 to-white text-blue-500'} border ${border}`}>
-            HN
+          <div className="relative w-full h-full rounded-full overflow-hidden">
+            <img
+              src={`${import.meta.env.BASE_URL}images/profile.png`}
+              alt="남하빈 프로필 사진"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>
