@@ -15,6 +15,12 @@ import { NAV } from '../data/nav.js';
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
+// Temporarily hidden: English content isn't translated yet. Flip to true
+// once EN copy is ready — `lang` state and all `lang === 'en'` branches
+// elsewhere are left intact, so this is the only change needed to bring
+// the toggle back.
+const SHOW_LANG_TOGGLE = false;
+
 export default function Header({ dark, setDark, lang, setLang, menuOpen, setMenuOpen, theme }) {
   const { text, muted, headerBg, border, accent } = theme;
 
@@ -36,12 +42,14 @@ export default function Header({ dark, setDark, lang, setLang, menuOpen, setMenu
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
-            className={`text-xs font-semibold px-3 py-2 rounded-md border ${border} ${muted} hover:${text} transition-colors`}
-          >
-            {lang === 'ko' ? 'EN' : 'KO'}
-          </button>
+          {SHOW_LANG_TOGGLE && (
+            <button
+              onClick={() => setLang(lang === 'ko' ? 'en' : 'ko')}
+              className={`text-xs font-semibold px-3 py-2 rounded-md border ${border} ${muted} hover:${text} transition-colors`}
+            >
+              {lang === 'ko' ? 'EN' : 'KO'}
+            </button>
+          )}
           <button
             onClick={() => setDark(!dark)}
             className={`p-2 rounded-md ${muted} hover:${text} hover:bg-white/5 transition-colors`}
