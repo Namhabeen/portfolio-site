@@ -26,18 +26,18 @@ export default function About({ lang, resumeUrl, theme }) {
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'ko' ? '소개' : 'About Me'}</h2>
         <div className={`h-1 w-16 mx-auto mb-10 ${accentBg} rounded-full`} />
-        <p className={`${muted} leading-relaxed mb-4`}>
+        <p className={`${muted} leading-relaxed mb-4 break-keep`}>
           {lang === 'ko' ? (
             <>
-              커머스·제조·LMS 환경에서 반복 업무와 분산된 데이터를 발견해 시스템으로 전환해왔습니다.
+              커머스·제조·LMS 환경에서 반복 업무와 분산된 데이터의 문제를 찾아 시스템과 자동화 구조로 전환해왔습니다.
               <br />
-              요구사항 분석부터 설계·개발·배포·운영까지 직접 수행하며, 구축한 기능이 조직의 업무 방식으로 정착하도록 만듭니다.
+              현업의 업무 흐름을 이해하고, 요구사항 분석부터 설계·개발·배포·운영까지 End-to-End로 수행하며 지속적으로 개선합니다.
             </>
           ) : (
             <>
-              I find repetitive tasks and fragmented data across commerce, manufacturing, and LMS environments, then turn them into systems.
+              I find problems in repetitive tasks and fragmented data across commerce, manufacturing, and LMS environments, and turn them into systems and automated workflows.
               <br />
-              I own the full loop from requirements to design, build, deploy, and operations — making what I build stick as part of how the team works.
+              By understanding how the work actually happens, I own the full loop end-to-end — from requirements analysis to design, development, deployment, and operations — carrying it through to lasting adoption and continuous improvement.
             </>
           )}
         </p>
