@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { usePortfolioData } from './api/usePortfolioData.js';
 import About from './components/About.jsx';
+import EducationExperience from './components/EducationExperience.jsx';
 import Footer from './components/Footer.jsx';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
@@ -8,6 +9,15 @@ import ProjectDetailModal from './components/ProjectDetailModal.jsx';
 import Projects from './components/Projects.jsx';
 import Skills from './components/Skills.jsx';
 import { getTheme } from './theme.js';
+
+/**
+ * `order` values for freelance/education/global-program entries that are
+ * shown in the "Education & Other Experience" section instead of the main
+ * project grid.
+ *
+ * @type {number[]}
+ */
+const OTHER_EXPERIENCE_ORDERS = [20, 21, 22, 23];
 
 /**
  * Root component of the portfolio site.
@@ -27,6 +37,9 @@ export default function Portfolio() {
 
   const { projects, positioning, resumeUrl, loading, error } = usePortfolioData();
   const theme = getTheme(dark);
+
+  const mainProjects = projects.filter((p) => !OTHER_EXPERIENCE_ORDERS.includes(p.order));
+  const otherExperienceProjects = projects.filter((p) => OTHER_EXPERIENCE_ORDERS.includes(p.order));
 
   return (
     <div
@@ -52,12 +65,20 @@ export default function Portfolio() {
       <Skills lang={lang} theme={theme} />
       <Projects
         lang={lang}
-        projects={projects}
+        projects={mainProjects}
         loading={loading}
         error={error}
         onSelectProject={setActiveProject}
         theme={theme}
       />
+      {!loading && !error && otherExperienceProjects.length > 0 && (
+        <EducationExperience
+          lang={lang}
+          projects={otherExperienceProjects}
+          onSelectProject={setActiveProject}
+          theme={theme}
+        />
+      )}
       <Footer lang={lang} theme={theme} />
 
       {activeProject && (
