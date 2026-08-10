@@ -67,7 +67,7 @@ export default function About({ lang, resumeUrl, theme }) {
         <div className={`rounded-xl p-6 border ${border} ${cardBg} flex flex-col`}>
           <h4 className="font-semibold mb-3 text-sm">{lang === 'ko' ? '연락처' : 'Contact'}</h4>
           <div className="flex-1 flex flex-col justify-end">
-            <p className="text-lg sm:text-xl font-bold mb-3">Seoul, South Korea</p>
+            <p className="text-lg sm:text-xl font-bold mb-3">서울특별시 은평구</p>
             <ul className={`space-y-2 text-sm ${muted}`}>
               <li className="flex items-center gap-2">
                 <Mail size={14} />
