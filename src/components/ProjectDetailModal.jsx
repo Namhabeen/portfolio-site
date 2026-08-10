@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { X } from 'lucide-react';
+import { getProjectImageUrl } from '../data/projectImages.js';
 
 /**
  * Labeled block within the project detail modal (e.g. "Overview",
@@ -58,6 +60,10 @@ function BulletList({ items, muted, accentBg }) {
  */
 export default function ProjectDetailModal({ project, lang, onClose, theme }) {
   const { bg, muted, border, accent, accentBg, overlayBg, dark } = theme;
+  const [imgError, setImgError] = useState(false);
+
+  const localImageUrl = getProjectImageUrl(project.notionId);
+  const hasImage = Boolean(localImageUrl) && !imgError;
 
   return (
     <div
@@ -85,6 +91,15 @@ export default function ProjectDetailModal({ project, lang, onClose, theme }) {
             </span>
           ))}
         </div>
+
+        {hasImage && (
+          <img
+            src={localImageUrl}
+            alt={`${project.cardName} 상세 이미지`}
+            onError={() => setImgError(true)}
+            className={`w-full h-auto rounded-lg border ${border} mb-6`}
+          />
+        )}
 
         <DetailBlock title={lang === 'ko' ? '프로젝트 개요' : 'Overview'} muted={muted}>
           <p className={`text-sm leading-relaxed ${muted}`}>{project.overview}</p>
