@@ -1,4 +1,5 @@
 import { Building2, Download, Github, Linkedin, Mail } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * "About" section: a short bio, career/contact cards, and a resume download CTA.
@@ -12,9 +13,16 @@ import { Building2, Download, Github, Linkedin, Mail } from 'lucide-react';
 export default function About({ lang, resumeUrl, theme }) {
   const { muted, border, cardBg, sectionAlt, accentBg } = theme;
   const resumeHref = resumeUrl || `${import.meta.env.BASE_URL}resume/남하빈_이력서.pdf`;
+  const [ref, visible] = useScrollReveal();
 
   return (
-    <section id="about" className={`py-24 px-6 ${sectionAlt}`}>
+    <section
+      id="about"
+      ref={ref}
+      className={`py-24 px-6 ${sectionAlt} transition-all duration-500 ease-out ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      }`}
+    >
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'ko' ? '소개' : 'About Me'}</h2>
         <div className={`h-1 w-16 mx-auto mb-10 ${accentBg} rounded-full`} />
