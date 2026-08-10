@@ -1,4 +1,5 @@
 import { SKILLS } from '../data/skills.js';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * "Skills & Expertise" section, rendered as a grid of skill-group cards.
@@ -9,10 +10,17 @@ import { SKILLS } from '../data/skills.js';
  * @returns {JSX.Element}
  */
 export default function Skills({ lang, theme }) {
-  const { muted, border, cardBg, sectionAlt, accentBg } = theme;
+  const { dark, muted, cardBg, bg, accentBg } = theme;
+  const [ref, visible] = useScrollReveal();
 
   return (
-    <section id="skills" className={`py-24 px-6 ${sectionAlt}`}>
+    <section
+      id="skills"
+      ref={ref}
+      className={`py-24 px-6 ${bg} transition-all duration-500 ease-out ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+      }`}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'ko' ? '핵심 역량' : 'Skills & Expertise'}</h2>
@@ -20,7 +28,7 @@ export default function Skills({ lang, theme }) {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SKILLS.map((s) => (
-            <div key={s.title} className={`rounded-xl p-6 border ${border} ${cardBg}`}>
+            <div key={s.title} className={`rounded-xl p-6 border ${dark ? 'border-white/12' : 'border-gray-300/60'} ${cardBg}`}>
               <h3 className="font-semibold mb-4">{s.title}</h3>
               <ul className="space-y-2">
                 {s.items.map((it) => (
