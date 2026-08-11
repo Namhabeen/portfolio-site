@@ -8,6 +8,15 @@
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Warm up connections to the Apps Script backend and the font CDN as
+         early as possible, so the DNS/TLS handshake overlaps with JS
+         parsing instead of only starting once fetch()/the stylesheet is
+         actually requested. -->
+    <link rel="preconnect" href="https://script.google.com" />
+    <link rel="preconnect" href="https://script.googleusercontent.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="남하빈 | Product Engineer" />

@@ -20,6 +20,46 @@ function getSlugFromUrl() {
 }
 
 /**
+ * Single in-flight (or already-settled) request for the portfolio data,
+ * shared by every `usePortfolioData()` call. Memoized at module scope so
+ * the fetch fires exactly once — kicked off below as soon as this module
+ * is first evaluated, rather than waiting for a component to mount and an
+ * effect to flush. That overlaps the network round trip with the rest of
+ * the app's JS parsing/rendering instead of starting it only afterward,
+ * and incidentally means React 18 StrictMode's dev-mode double-invoke of
+ * effects can never trigger a second real request.
+ *
+ * @type {Promise<object> | null}
+ */
+let portfolioDataPromise = null;
+
+function fetchPortfolioData() {
+  if (portfolioDataPromise) return portfolioDataPromise;
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (!apiUrl) {
+    portfolioDataPromise = Promise.reject(
+      new Error('VITE_API_URL이 설정되어 있지 않습니다. .env 파일을 확인해주세요.')
+    );
+    return portfolioDataPromise;
+  }
+
+  const slug = getSlugFromUrl();
+  const url = slug ? `${apiUrl}?company=${encodeURIComponent(slug)}` : apiUrl;
+
+  portfolioDataPromise = fetch(url).then((res) => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  });
+
+  return portfolioDataPromise;
+}
+
+if (typeof window !== 'undefined') {
+  fetchPortfolioData();
+}
+
+/**
  * Fetches portfolio data (projects and, optionally, a positioning
  * sentence) from the Apps Script backend defined by `VITE_API_URL`.
  *
@@ -51,24 +91,11 @@ export function usePortfolioData() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL;
-    if (!apiUrl) {
-      setError('VITE_API_URL이 설정되어 있지 않습니다. .env 파일을 확인해주세요.');
-      setLoading(false);
-      return;
-    }
+    let cancelled = false;
 
-    const slug = getSlugFromUrl();
-    const url = slug ? `${apiUrl}?company=${encodeURIComponent(slug)}` : apiUrl;
-
-    const controller = new AbortController();
-
-    fetch(url, { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
+    fetchPortfolioData()
       .then((data) => {
+        if (cancelled) return;
         setProjects(data.projects || []);
         setPositioning(data.positioning || null);
         setResumeUrl(data.resumeUrl || null);
@@ -79,12 +106,14 @@ export function usePortfolioData() {
         setLoading(false);
       })
       .catch((err) => {
-        if (err.name === 'AbortError') return;
+        if (cancelled) return;
         setError(err.message || '데이터를 불러오지 못했습니다');
         setLoading(false);
       });
 
-    return () => controller.abort();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, loading, error };

@@ -44,10 +44,6 @@ export default function Portfolio() {
       className={`${theme.bg} ${theme.text} min-h-screen transition-colors duration-300`}
       style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}
     >
-      <style>{`
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
-      `}</style>
-
       <Header
         dark={dark}
         setDark={setDark}
