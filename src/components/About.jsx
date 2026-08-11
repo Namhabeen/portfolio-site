@@ -99,7 +99,8 @@ export default function About({ lang, positioning, resumeUrl, portfolioUrl, them
         {resumeUrl && (
           <a
             href={resumeUrl}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className={`inline-flex items-center gap-2 px-8 py-4 ${accentBg} text-white rounded-full font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}
           >
             <Download size={18} />
