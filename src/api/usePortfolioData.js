@@ -61,7 +61,9 @@ export function usePortfolioData() {
     const slug = getSlugFromUrl();
     const url = slug ? `${apiUrl}?company=${encodeURIComponent(slug)}` : apiUrl;
 
-    fetch(url)
+    const controller = new AbortController();
+
+    fetch(url, { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -77,9 +79,12 @@ export function usePortfolioData() {
         setLoading(false);
       })
       .catch((err) => {
+        if (err.name === 'AbortError') return;
         setError(err.message || '데이터를 불러오지 못했습니다');
         setLoading(false);
       });
+
+    return () => controller.abort();
   }, []);
 
   return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, loading, error };
