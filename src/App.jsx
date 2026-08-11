@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePortfolioData } from './api/usePortfolioData.js';
 import About from './components/About.jsx';
 import EducationExperience from './components/EducationExperience.jsx';
@@ -27,11 +27,11 @@ export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
 
-  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, loading, error } = usePortfolioData();
+  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, loading, error } = usePortfolioData();
   const theme = getTheme(dark);
 
-  const mainProjects = projects.filter((p) => p.section !== '기타경험');
-  const otherExperienceProjects = projects.filter((p) => p.section === '기타경험');
+  const mainProjects = useMemo(() => projects.filter((p) => p.section !== '기타경험'), [projects]);
+  const otherExperienceProjects = useMemo(() => projects.filter((p) => p.section === '기타경험'), [projects]);
 
   useEffect(() => {
     if (!pageTitle) return;
@@ -63,6 +63,7 @@ export default function Portfolio() {
       <Projects
         lang={lang}
         projects={mainProjects}
+        featuredIds={featuredIds}
         loading={loading}
         error={error}
         onSelectProject={setActiveProject}

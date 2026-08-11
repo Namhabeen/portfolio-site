@@ -77,6 +77,7 @@ function doGet(e) {
         pageTitle: config.pageTitle || null,
         projects: filtered,
         heroCopy: config.heroCopy || null,
+        featuredIds: config.featuredIds || [],
       };
     }
     // 매칭되는 slug가 없거나 노출프로젝트가 비어 있으면 -> 마스터(전체) 버전 그대로 반환

@@ -7,25 +7,49 @@ import { useScrollReveal } from '../hooks/useScrollReveal.js';
 const PAGE_SIZE = 6;
 
 /**
+ * Orders projects for the grid: if `featuredIds` is non-empty, those
+ * projects come first (in the relation's own order), followed by the
+ * rest sorted by `order`; otherwise every project is sorted by `order`
+ * alone (the master/no-company-slug case).
+ *
+ * @param {Array<object>} projects - Projects to order.
+ * @param {string[]} featuredIds - notionIds in the desired featured order, if any.
+ * @returns {Array<object>} The ordered projects.
+ */
+function orderProjects(projects, featuredIds) {
+  if (!featuredIds || featuredIds.length === 0) {
+    return [...projects].sort((a, b) => (a.order || 0) - (b.order || 0));
+  }
+
+  const featuredSet = new Set(featuredIds);
+  const featured = featuredIds.map((id) => projects.find((p) => p.notionId === id)).filter(Boolean);
+  const rest = projects.filter((p) => !featuredSet.has(p.notionId)).sort((a, b) => (a.order || 0) - (b.order || 0));
+
+  return [...featured, ...rest];
+}
+
+/**
  * "Projects" section. Renders a loading state, an error state, or a grid
  * of project cards depending on the current fetch status from
  * `usePortfolioData`.
  *
- * Projects are sorted by `order` and revealed 6 at a time via a "show
- * more" button, so the page doesn't front-load every project's images at
- * once. The visible count resets whenever the `projects` array itself
- * changes (e.g. a different `?company=` slug loads a different list).
+ * Projects are ordered via `orderProjects` (featured first, if any) and
+ * revealed 6 at a time via a "show more" button, so the page doesn't
+ * front-load every project's images at once. The visible count resets
+ * whenever the `projects` array itself changes (e.g. a different
+ * `?company=` slug loads a different list).
  *
  * @param {object} props
  * @param {'ko' | 'en'} props.lang - Current language.
  * @param {Array<object>} props.projects - Projects to display.
+ * @param {string[]} [props.featuredIds] - notionIds of company-specific featured projects, in display order.
  * @param {boolean} props.loading - Whether the projects are still being fetched.
  * @param {string | null} props.error - Error message to display, if the fetch failed.
  * @param {(project: object) => void} props.onSelectProject - Called with a project when its card is clicked.
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
-export default function Projects({ lang, projects, loading, error, onSelectProject, theme }) {
+export default function Projects({ lang, projects, featuredIds, loading, error, onSelectProject, theme }) {
   const { muted, border, bg, cardBg, dark, sectionAlt, accent, accentBg } = theme;
   const [headingRef, headingVisible] = useScrollReveal();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -34,7 +58,7 @@ export default function Projects({ lang, projects, loading, error, onSelectProje
     setVisibleCount(PAGE_SIZE);
   }, [projects]);
 
-  const sortedProjects = [...projects].sort((a, b) => (a.order || 0) - (b.order || 0));
+  const sortedProjects = orderProjects(projects, featuredIds);
   const visibleProjects = sortedProjects.slice(0, visibleCount);
   const remaining = sortedProjects.length - visibleProjects.length;
 
