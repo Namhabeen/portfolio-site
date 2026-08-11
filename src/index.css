@@ -21,22 +21,39 @@ html {
   }
 }
 
-.hero-name-mask {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
-}
-
 .hero-name-text {
-  display: inline-block;
-  transform: translateY(100%);
   opacity: 0;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s ease-out;
 }
 
 .hero-name-text.is-visible {
-  transform: translateY(0);
   opacity: 1;
+}
+
+/* Skeleton shimmer sweep (used by <Skeleton />) */
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+/* Top loading bar (indeterminate sweep) */
+@keyframes loading-bar-sweep {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.loading-bar-fill {
+  animation: loading-bar-sweep 1.3s ease-in-out infinite;
 }

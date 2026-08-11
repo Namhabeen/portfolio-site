@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import ProjectCard from './ProjectCard.jsx';
+import Skeleton from './Skeleton.jsx';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 const PAGE_SIZE = 6;
@@ -25,7 +26,7 @@ const PAGE_SIZE = 6;
  * @returns {JSX.Element}
  */
 export default function Projects({ lang, projects, loading, error, onSelectProject, theme }) {
-  const { muted, border, bg, dark, sectionAlt, accent, accentBg } = theme;
+  const { muted, border, bg, cardBg, dark, sectionAlt, accent, accentBg } = theme;
   const [headingRef, headingVisible] = useScrollReveal();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -56,9 +57,18 @@ export default function Projects({ lang, projects, loading, error, onSelectProje
         </div>
 
         {loading && (
-          <div className={`flex flex-col items-center justify-center py-20 ${muted}`}>
-            <Loader2 size={28} className="animate-spin mb-3" />
-            <span className="text-sm">{lang === 'ko' ? '프로젝트를 불러오는 중' : 'Loading projects'}</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {Array.from({ length: PAGE_SIZE }).map((_, i) => (
+              <div key={i} className={`rounded-xl border ${border} ${cardBg} overflow-hidden`}>
+                <Skeleton dark={dark} className="relative h-48" />
+                <div className="p-6 space-y-3">
+                  <Skeleton dark={dark} className="relative h-3 w-20 rounded" />
+                  <Skeleton dark={dark} className="relative h-5 w-3/4 rounded" />
+                  <Skeleton dark={dark} className="relative h-3 w-full rounded" />
+                  <Skeleton dark={dark} className="relative h-3 w-5/6 rounded" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

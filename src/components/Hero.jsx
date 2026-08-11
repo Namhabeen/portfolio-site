@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { ArrowDown } from 'lucide-react';
+import Skeleton from './Skeleton.jsx';
 
 /**
  * Landing section: headline, intro copy, and primary calls to action.
@@ -12,7 +13,7 @@ import { ArrowDown } from 'lucide-react';
  * @param {'ko' | 'en'} props.lang - Current language.
  * @param {string | null} props.heroCopy - Company-specific Hero subcopy from the backend, if any.
  * @param {string | null} [props.badgeText] - Company-specific badge text from the backend, if any; falls back to a generic title.
- * @param {boolean} [props.loading] - Whether portfolio data is still being fetched. While true, the badge, the accented name, and the subcopy all stay invisible (but still laid out) so a company-specific override never flashes the generic default first — everything reveals together once data is ready.
+ * @param {boolean} [props.loading] - Whether portfolio data is still being fetched. While true, a gray pulsing skeleton is shown in place of the badge/name/subcopy; once data is ready, the skeleton fades out and the real content fades in over the same 0.3s.
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
@@ -23,53 +24,83 @@ export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
     <section id="home" className="min-h-screen flex items-center justify-center px-6 pt-24 pb-16 relative">
       <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
         <div className="lg:col-span-3 space-y-6">
-          <span
-            className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent} transition-opacity duration-300 ${
-              loading ? 'opacity-0' : 'opacity-100'
-            }`}
-          >
-            {badgeText || 'Product Engineer · AX Engineer'}
-          </span>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
-            {lang === 'ko' ? (
-              <>
-                안녕하세요,{' '}
-                <span className="hero-name-mask">
+          {/* Badge */}
+          <div className="relative inline-block">
+            <span
+              className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${
+                dark ? 'bg-blue-500/10' : 'bg-blue-50'
+              } ${accent} transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
+            >
+              {badgeText || 'Product Engineer · AX Engineer'}
+            </span>
+            <Skeleton
+              dark={dark}
+              className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
+                loading ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          </div>
+
+          {/* Name headline */}
+          <div className="relative">
+            <h1
+              className={`text-4xl md:text-6xl font-bold tracking-tight leading-[1.1] transition-opacity duration-300 ${
+                loading ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              {lang === 'ko' ? (
+                <>
+                  안녕하세요,{' '}
                   <span className={`hero-name-text ${accent} ${loading ? '' : 'is-visible'}`}>남하빈</span>
-                </span>
-                입니다
-              </>
-            ) : (
-              <>
-                Hi, I'm{' '}
-                <span className="hero-name-mask">
+                  입니다
+                </>
+              ) : (
+                <>
+                  Hi, I'm{' '}
                   <span className={`hero-name-text ${accent} ${loading ? '' : 'is-visible'}`}>Habeen Nam</span>
-                </span>
-              </>
-            )}
-          </h1>
-          <p
-            className={`text-base md:text-lg ${muted} max-w-xl leading-relaxed transition-opacity duration-300 ${
-              loading ? 'opacity-0' : 'opacity-100'
-            }`}
-          >
-            {heroCopy
-              ? heroCopy.split('\n').map((line, i, lines) => (
-                  <Fragment key={i}>
-                    {line}
-                    {i < lines.length - 1 && <br />}
-                  </Fragment>
-                ))
-              : lang === 'ko'
-              ? (
-                  <>
-                    현업의 반복 업무와 분산된 데이터를 발견해, 자동화·연동 시스템으로
-                    <br />
-                    직접 설계하고 구축하는 백엔드 기반 엔지니어입니다.
-                  </>
-                )
-              : 'A backend engineer who finds repetitive, fragmented work in the field and turns it into automated, integrated systems — end to end.'}
-          </p>
+                </>
+              )}
+            </h1>
+            <Skeleton
+              dark={dark}
+              className={`absolute inset-0 rounded-lg transition-opacity duration-300 ${
+                loading ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          </div>
+
+          {/* Subcopy */}
+          <div className="relative max-w-xl">
+            <p
+              className={`text-base md:text-lg ${muted} max-w-xl leading-relaxed transition-opacity duration-300 ${
+                loading ? 'opacity-0' : 'opacity-100'
+              }`}
+            >
+              {heroCopy
+                ? heroCopy.split('\n').map((line, i, lines) => (
+                    <Fragment key={i}>
+                      {line}
+                      {i < lines.length - 1 && <br />}
+                    </Fragment>
+                  ))
+                : lang === 'ko'
+                ? (
+                    <>
+                      현업의 반복 업무와 분산된 데이터를 발견해, 자동화·연동 시스템으로
+                      <br />
+                      직접 설계하고 구축하는 백엔드 기반 엔지니어입니다.
+                    </>
+                  )
+                : 'A backend engineer who finds repetitive, fragmented work in the field and turns it into automated, integrated systems — end to end.'}
+            </p>
+            <Skeleton
+              dark={dark}
+              className={`absolute inset-0 rounded transition-opacity duration-300 ${
+                loading ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          </div>
+
           <div className="flex flex-wrap gap-3 pt-2">
             <a href="#projects" className={`px-6 py-3 ${accentBg} text-white rounded-md font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}>
               {lang === 'ko' ? '프로젝트 보기' : 'View Projects'}

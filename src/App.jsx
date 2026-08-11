@@ -5,6 +5,7 @@ import EducationExperience from './components/EducationExperience.jsx';
 import Footer from './components/Footer.jsx';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
+import LoadingBar from './components/LoadingBar.jsx';
 import ProjectDetailModal from './components/ProjectDetailModal.jsx';
 import Projects from './components/Projects.jsx';
 import Skills from './components/Skills.jsx';
@@ -44,6 +45,8 @@ export default function Portfolio() {
       className={`${theme.bg} ${theme.text} min-h-screen transition-colors duration-300`}
       style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}
     >
+      <LoadingBar loading={loading} />
+
       <Header
         dark={dark}
         setDark={setDark}
