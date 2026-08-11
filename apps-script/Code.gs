@@ -377,3 +377,27 @@ function clearCache() {
   cache.removeAll(keys);
   Logger.log('캐시 삭제 완료: ' + keys.join(', '));
 }
+
+/**
+ * 시간 기반 트리거 전용. 사용자 요청과 무관하게 주기적으로 실행되어
+ * portfolio_projects 캐시와, known_slugs에 기록된 모든 slug의 config_<slug>
+ * 캐시를 항상 채워둔다. 이렇게 캐시를 미리 데워두면 실제 방문자 요청이
+ * Notion API 왕복 없이 캐시에서 바로 응답받을 수 있다.
+ */
+function scheduledWarmCache_() {
+  getAllProjectsCached_();
+
+  const cache = CacheService.getScriptCache();
+  const cachedSlugs = cache.get('known_slugs');
+  if (!cachedSlugs) return;
+
+  JSON.parse(cachedSlugs).forEach(function (slug) {
+    findConfigBySlug_(slug);
+  });
+}
+
+/**
+ * 시간 기반 트리거 설정 방법:
+ * Apps Script 에디터 좌측 시계 아이콘(트리거) → 트리거 추가 → 실행할 함수: scheduledWarmCache_
+ * → 시간 기반 → 분 단위 타이머 → 5분마다(또는 10분마다) 실행되도록 설정
+ */
