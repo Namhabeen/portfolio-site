@@ -101,29 +101,41 @@ export default function ProjectDetailModal({ project, lang, onClose, theme }) {
           />
         )}
 
-        <DetailBlock title={lang === 'ko' ? '프로젝트 개요' : 'Overview'} muted={muted}>
-          <p className={`text-sm leading-relaxed ${muted}`}>{project.overview}</p>
-        </DetailBlock>
+        {(() => {
+          const sections = [
+            {
+              title: lang === 'ko' ? '프로젝트 개요' : 'Overview',
+              content: project.overview ? <p className={`text-sm leading-relaxed ${muted}`}>{project.overview}</p> : null,
+            },
+            {
+              title: lang === 'ko' ? '문제 상황' : 'Problem',
+              content: project.problem && project.problem.length > 0 ? <BulletList items={project.problem} muted={muted} accentBg={accentBg} /> : null,
+            },
+            {
+              title: lang === 'ko' ? '의사결정 및 역할' : 'Decisions & Role',
+              content: project.decisions && project.decisions.length > 0 ? <BulletList items={project.decisions} muted={muted} accentBg={accentBg} /> : null,
+            },
+            {
+              title: project.implementationLabel || (lang === 'ko' ? '주요 구현 내용' : 'Implementation'),
+              content: project.implementation && project.implementation.length > 0 ? <BulletList items={project.implementation} muted={muted} accentBg={accentBg} /> : null,
+            },
+            {
+              title: lang === 'ko' ? '성과' : 'Results',
+              content: project.results && project.results.length > 0 ? <BulletList items={project.results} muted={muted} accentBg={accentBg} /> : null,
+            },
+            {
+              title: lang === 'ko' ? '보여준 역량' : 'Skills Demonstrated',
+              content: project.skillsShown && project.skillsShown.length > 0 ? <BulletList items={project.skillsShown} muted={muted} accentBg={accentBg} /> : null,
+            },
+          ];
+          const visibleSections = sections.filter((s) => s.content !== null);
 
-        <DetailBlock title={lang === 'ko' ? '문제 상황' : 'Problem'} muted={muted}>
-          <BulletList items={project.problem} muted={muted} accentBg={accentBg} />
-        </DetailBlock>
-
-        <DetailBlock title={lang === 'ko' ? '의사결정 및 역할' : 'Decisions & Role'} muted={muted}>
-          <BulletList items={project.decisions} muted={muted} accentBg={accentBg} />
-        </DetailBlock>
-
-        <DetailBlock title={project.implementationLabel || (lang === 'ko' ? '주요 구현 내용' : 'Implementation')} muted={muted}>
-          <BulletList items={project.implementation} muted={muted} accentBg={accentBg} />
-        </DetailBlock>
-
-        <DetailBlock title={lang === 'ko' ? '성과' : 'Results'} muted={muted}>
-          <BulletList items={project.results} muted={muted} accentBg={accentBg} />
-        </DetailBlock>
-
-        <DetailBlock title={lang === 'ko' ? '보여준 역량' : 'Skills Demonstrated'} muted={muted} last>
-          <BulletList items={project.skillsShown} muted={muted} accentBg={accentBg} />
-        </DetailBlock>
+          return visibleSections.map((s, i) => (
+            <DetailBlock key={s.title} title={s.title} muted={muted} last={i === visibleSections.length - 1}>
+              {s.content}
+            </DetailBlock>
+          ));
+        })()}
       </div>
     </div>
   );
