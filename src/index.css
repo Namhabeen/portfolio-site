@@ -31,16 +31,12 @@ html {
 
 .hero-name-text {
   display: inline-block;
-  animation: hero-mask-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes hero-mask-up {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.hero-name-text.is-visible {
+  transform: translateY(0);
+  opacity: 1;
 }

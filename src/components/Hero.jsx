@@ -1,34 +1,41 @@
+import { Fragment } from 'react';
 import { ArrowDown } from 'lucide-react';
 
 /**
  * Landing section: headline, intro copy, and primary calls to action.
  *
- * The intro paragraph prefers the `positioning` sentence returned by the
- * backend (set per company via the `?c=` slug) and falls back to a
+ * The intro paragraph prefers the `heroCopy` sentence returned by the
+ * backend (set per company via the `?company=` slug) and falls back to a
  * generic description while that data is loading or absent.
  *
  * @param {object} props
  * @param {'ko' | 'en'} props.lang - Current language.
- * @param {string | null} props.positioning - Company-specific positioning sentence from the backend, if any.
+ * @param {string | null} props.heroCopy - Company-specific Hero subcopy from the backend, if any.
+ * @param {string | null} [props.badgeText] - Company-specific badge text from the backend, if any; falls back to a generic title.
+ * @param {boolean} [props.loading] - Whether portfolio data is still being fetched. While true, the badge, the accented name, and the subcopy all stay invisible (but still laid out) so a company-specific override never flashes the generic default first — everything reveals together once data is ready.
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
-export default function Hero({ lang, positioning, theme }) {
+export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
   const { dark, muted, border, accent, accentBg } = theme;
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center px-6 pt-24 pb-16 relative">
       <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
         <div className="lg:col-span-3 space-y-6">
-          <span className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent}`}>
-            Product Engineer &middot; AX Engineer
+          <span
+            className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent} transition-opacity duration-300 ${
+              loading ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
+            {badgeText || 'Product Engineer · AX Engineer'}
           </span>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
             {lang === 'ko' ? (
               <>
                 안녕하세요,{' '}
                 <span className="hero-name-mask">
-                  <span className={`hero-name-text ${accent}`}>남하빈</span>
+                  <span className={`hero-name-text ${accent} ${loading ? '' : 'is-visible'}`}>남하빈</span>
                 </span>
                 입니다
               </>
@@ -36,14 +43,23 @@ export default function Hero({ lang, positioning, theme }) {
               <>
                 Hi, I'm{' '}
                 <span className="hero-name-mask">
-                  <span className={`hero-name-text ${accent}`}>Habeen Nam</span>
+                  <span className={`hero-name-text ${accent} ${loading ? '' : 'is-visible'}`}>Habeen Nam</span>
                 </span>
               </>
             )}
           </h1>
-          <p className={`text-base md:text-lg ${muted} max-w-xl leading-relaxed`}>
-            {positioning
-              ? positioning
+          <p
+            className={`text-base md:text-lg ${muted} max-w-xl leading-relaxed transition-opacity duration-300 ${
+              loading ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
+            {heroCopy
+              ? heroCopy.split('\n').map((line, i, lines) => (
+                  <Fragment key={i}>
+                    {line}
+                    {i < lines.length - 1 && <br />}
+                  </Fragment>
+                ))
               : lang === 'ko'
               ? (
                   <>
