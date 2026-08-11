@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { getProjectImageUrl } from '../data/projectImages.js';
 
@@ -64,6 +64,16 @@ export default function ProjectDetailModal({ project, lang, onClose, theme }) {
 
   const localImageUrl = getProjectImageUrl(project.notionId);
   const hasImage = Boolean(localImageUrl) && !imgError;
+
+  // Lock background scroll while the modal is mounted; restore whatever
+  // the body's overflow was set to before, on close.
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
 
   return (
     <div
