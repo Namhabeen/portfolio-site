@@ -13,7 +13,7 @@ const PAGE_SIZE = 6;
  * Projects are sorted by `order` and revealed 6 at a time via a "show
  * more" button, so the page doesn't front-load every project's images at
  * once. The visible count resets whenever the `projects` array itself
- * changes (e.g. a different `?c=` company slug loads a different list).
+ * changes (e.g. a different `?company=` slug loads a different list).
  *
  * @param {object} props
  * @param {'ko' | 'en'} props.lang - Current language.

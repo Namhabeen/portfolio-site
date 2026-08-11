@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Reads the `c` query parameter from the current URL, if present.
+ * Reads the `company` query parameter from the current URL, if present.
  *
  * The value is used as a company slug: when set, the Apps Script backend
  * returns a filtered, company-specific project list and positioning
  * sentence instead of the full master portfolio.
+ *
+ * Named `company` rather than `c` because Apps Script's deployment URL
+ * handling reportedly treats `c` as an internally reserved parameter name.
  *
  * @returns {string | null} The slug value, or null if absent or if
  *   `window` is not available (e.g. during server-side rendering).
@@ -13,21 +16,25 @@ import { useEffect, useState } from 'react';
 function getSlugFromUrl() {
   if (typeof window === 'undefined') return null;
   const params = new URLSearchParams(window.location.search);
-  return params.get('c');
+  return params.get('company');
 }
 
 /**
  * Fetches portfolio data (projects and, optionally, a positioning
  * sentence) from the Apps Script backend defined by `VITE_API_URL`.
  *
- * If the current URL has a `?c=<slug>` parameter, it is forwarded to the
- * backend so a company-specific subset of projects is returned; otherwise
- * the full master project list is requested.
+ * If the current URL has a `?company=<slug>` parameter, it is forwarded to
+ * the backend so a company-specific subset of projects is returned;
+ * otherwise the full master project list is requested.
  *
  * @returns {{
  *   projects: Array<object>,
  *   positioning: string | null,
  *   resumeUrl: string | null,
+ *   badgeText: string | null,
+ *   pageTitle: string | null,
+ *   portfolioUrl: string | null,
+ *   heroCopy: string | null,
  *   loading: boolean,
  *   error: string | null,
  * }} The current fetch state.
@@ -36,6 +43,10 @@ export function usePortfolioData() {
   const [projects, setProjects] = useState([]);
   const [positioning, setPositioning] = useState(null);
   const [resumeUrl, setResumeUrl] = useState(null);
+  const [badgeText, setBadgeText] = useState(null);
+  const [pageTitle, setPageTitle] = useState(null);
+  const [portfolioUrl, setPortfolioUrl] = useState(null);
+  const [heroCopy, setHeroCopy] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,7 +59,7 @@ export function usePortfolioData() {
     }
 
     const slug = getSlugFromUrl();
-    const url = slug ? `${apiUrl}?c=${encodeURIComponent(slug)}` : apiUrl;
+    const url = slug ? `${apiUrl}?company=${encodeURIComponent(slug)}` : apiUrl;
 
     fetch(url)
       .then((res) => {
@@ -59,6 +70,10 @@ export function usePortfolioData() {
         setProjects(data.projects || []);
         setPositioning(data.positioning || null);
         setResumeUrl(data.resumeUrl || null);
+        setBadgeText(data.badgeText || null);
+        setPageTitle(data.pageTitle || null);
+        setPortfolioUrl(data.portfolioUrl || null);
+        setHeroCopy(data.heroCopy || null);
         setLoading(false);
       })
       .catch((err) => {
@@ -67,5 +82,5 @@ export function usePortfolioData() {
       });
   }, []);
 
-  return { projects, positioning, resumeUrl, loading, error };
+  return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, loading, error };
 }

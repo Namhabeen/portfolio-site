@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePortfolioData } from './api/usePortfolioData.js';
 import About from './components/About.jsx';
 import EducationExperience from './components/EducationExperience.jsx';
@@ -9,15 +9,6 @@ import ProjectDetailModal from './components/ProjectDetailModal.jsx';
 import Projects from './components/Projects.jsx';
 import Skills from './components/Skills.jsx';
 import { getTheme } from './theme.js';
-
-/**
- * `order` values for freelance/education/global-program entries that are
- * shown in the "Education & Other Experience" section instead of the main
- * project grid.
- *
- * @type {number[]}
- */
-const OTHER_EXPERIENCE_ORDERS = [20, 21, 22, 23];
 
 /**
  * Root component of the portfolio site.
@@ -35,11 +26,18 @@ export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
 
-  const { projects, positioning, resumeUrl, loading, error } = usePortfolioData();
+  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, loading, error } = usePortfolioData();
   const theme = getTheme(dark);
 
-  const mainProjects = projects.filter((p) => !OTHER_EXPERIENCE_ORDERS.includes(p.order));
-  const otherExperienceProjects = projects.filter((p) => OTHER_EXPERIENCE_ORDERS.includes(p.order));
+  const mainProjects = projects.filter((p) => p.section !== '기타경험');
+  const otherExperienceProjects = projects.filter((p) => p.section === '기타경험');
+
+  useEffect(() => {
+    if (!pageTitle) return;
+    document.title = pageTitle;
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+  }, [pageTitle]);
 
   return (
     <div
@@ -60,8 +58,8 @@ export default function Portfolio() {
         theme={theme}
       />
 
-      <Hero lang={lang} positioning={positioning} theme={theme} />
-      <About lang={lang} resumeUrl={resumeUrl} theme={theme} />
+      <Hero lang={lang} heroCopy={heroCopy} badgeText={badgeText} loading={loading} theme={theme} />
+      <About lang={lang} positioning={positioning} resumeUrl={resumeUrl} portfolioUrl={portfolioUrl} theme={theme} />
       <Skills lang={lang} theme={theme} />
       <Projects
         lang={lang}
