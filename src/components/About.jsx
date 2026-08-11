@@ -1,4 +1,4 @@
-import { Building2, Download, Github, Linkedin, Mail } from 'lucide-react';
+import { Building2, Download, FileText, Github, Linkedin, Mail } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
@@ -6,13 +6,14 @@ import { useScrollReveal } from '../hooks/useScrollReveal.js';
  *
  * @param {object} props
  * @param {'ko' | 'en'} props.lang - Current language.
+ * @param {string | null} [props.positioning] - Company-specific positioning sentence from the backend, if any; falls back to a generic intro.
  * @param {string | null} props.resumeUrl - Company-specific resume URL from the backend, if any.
+ * @param {string | null} [props.portfolioUrl] - Company-specific portfolio PDF URL from the backend, if any. When absent, no portfolio download button is rendered.
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
-export default function About({ lang, resumeUrl, theme }) {
-  const { muted, border, cardBg, sectionAlt, accentBg } = theme;
-  const resumeHref = resumeUrl || `${import.meta.env.BASE_URL}resume/남하빈_이력서.pdf`;
+export default function About({ lang, positioning, resumeUrl, portfolioUrl, theme }) {
+  const { dark, muted, border, cardBg, sectionAlt, accentBg } = theme;
   const [ref, visible] = useScrollReveal();
 
   return (
@@ -27,7 +28,9 @@ export default function About({ lang, resumeUrl, theme }) {
         <h2 className="text-3xl md:text-4xl font-bold mb-4">{lang === 'ko' ? '소개' : 'About Me'}</h2>
         <div className={`h-1 w-16 mx-auto mb-10 ${accentBg} rounded-full`} />
         <p className={`${muted} leading-relaxed mb-4 break-keep`}>
-          {lang === 'ko' ? (
+          {positioning ? (
+            positioning
+          ) : lang === 'ko' ? (
             <>
               커머스·제조·LMS 환경에서 반복 업무와 분산된 데이터의 문제를 찾아 시스템과 자동화 구조로 전환해왔습니다.
               <br />
@@ -92,15 +95,30 @@ export default function About({ lang, resumeUrl, theme }) {
         </div>
       </div>
 
-      <div className="mt-10 text-center">
-        <a
-          href={resumeHref}
-          download
-          className={`inline-flex items-center gap-2 px-8 py-4 ${accentBg} text-white rounded-full font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}
-        >
-          <Download size={18} />
-          {lang === 'ko' ? '이력서 다운로드' : 'Download Resume'}
-        </a>
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+        {resumeUrl && (
+          <a
+            href={resumeUrl}
+            download
+            className={`inline-flex items-center gap-2 px-8 py-4 ${accentBg} text-white rounded-full font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}
+          >
+            <Download size={18} />
+            {lang === 'ko' ? '이력서 다운로드' : 'Download Resume'}
+          </a>
+        )}
+        {portfolioUrl && (
+          <a
+            href={portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium border transition-all hover:-translate-y-0.5 ${
+              dark ? `${border} hover:bg-white/5` : 'bg-white text-gray-700 border-gray-300 hover:opacity-90'
+            }`}
+          >
+            <FileText size={18} />
+            {lang === 'ko' ? '포트폴리오 PDF' : 'Download Portfolio PDF'}
+          </a>
+        )}
       </div>
     </section>
   );
