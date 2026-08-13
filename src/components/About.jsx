@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Building2, Download, FileText, Github, Linkedin, Mail } from 'lucide-react';
 import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
@@ -29,7 +30,12 @@ export default function About({ lang, positioning, resumeUrl, portfolioUrl, them
         <div className={`h-1 w-16 mx-auto mb-10 ${accentBg} rounded-full`} />
         <p className={`${muted} leading-relaxed mb-4 break-keep`}>
           {positioning ? (
-            positioning
+            positioning.split('\n').map((line, i, lines) => (
+              <Fragment key={i}>
+                {line}
+                {i < lines.length - 1 && <br />}
+              </Fragment>
+            ))
           ) : lang === 'ko' ? (
             <>
               커머스·제조·LMS 환경에서 반복 업무와 분산된 데이터의 문제를 찾아 시스템과 자동화 구조로 전환해왔습니다.

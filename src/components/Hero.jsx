@@ -52,7 +52,7 @@ export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
                 <>
                   안녕하세요,{' '}
                   <span className={`hero-name-text ${accent} ${loading ? '' : 'is-visible'}`}>남하빈</span>
-                  입니다
+                  입니다.
                 </>
               ) : (
                 <>
@@ -110,7 +110,7 @@ export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
             </a>
           </div>
         </div>
-        <div className="order-1 lg:order-2 lg:col-span-2 aspect-square max-w-sm mx-auto relative">
+        <div className="order-1 lg:order-2 lg:col-span-2 aspect-square max-w-xs mx-auto relative">
           <div className="relative w-full h-full rounded-full overflow-hidden">
             <img
               src={`${import.meta.env.BASE_URL}images/profile.png`}
