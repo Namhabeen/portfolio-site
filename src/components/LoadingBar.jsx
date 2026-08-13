@@ -6,9 +6,10 @@
  *
  * @param {object} props
  * @param {boolean} props.loading - Whether portfolio data is still being fetched.
+ * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
-export default function LoadingBar({ loading }) {
+export default function LoadingBar({ loading, theme }) {
   return (
     <div
       className={`fixed top-0 left-0 right-0 z-50 h-[3px] overflow-hidden pointer-events-none transition-opacity duration-200 ${
@@ -18,7 +19,7 @@ export default function LoadingBar({ loading }) {
       aria-label="로딩 중"
       aria-hidden={!loading}
     >
-      <div className="loading-bar-fill absolute top-0 bottom-0 w-2/5 rounded-full bg-blue-500" />
+      <div className={`loading-bar-fill absolute top-0 bottom-0 w-2/5 rounded-full ${theme.loadingBar}`} />
     </div>
   );
 }

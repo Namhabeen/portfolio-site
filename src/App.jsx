@@ -27,8 +27,8 @@ export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
 
-  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, loading, error } = usePortfolioData();
-  const theme = getTheme(dark);
+  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, mainColor, loading, error } = usePortfolioData();
+  const theme = getTheme(dark, mainColor);
 
   const mainProjects = useMemo(() => projects.filter((p) => p.section !== '기타경험'), [projects]);
   const otherExperienceProjects = useMemo(() => projects.filter((p) => p.section === '기타경험'), [projects]);
@@ -43,9 +43,19 @@ export default function Portfolio() {
   return (
     <div
       className={`${theme.bg} ${theme.text} min-h-screen transition-colors duration-300`}
-      style={{ fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif" }}
+      style={{
+        fontFamily: "'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif",
+        ...(theme.brand && {
+          '--brand': theme.brand.brand,
+          '--brand-hover': theme.brand.brandHover,
+          '--brand-light': theme.brand.brandLight,
+          '--brand-dark': theme.brand.brandDark,
+          '--brand-tint-dark': theme.brand.brandTintDark,
+          '--brand-text-on': theme.brand.brandTextOn,
+        }),
+      }}
     >
-      <LoadingBar loading={loading} />
+      <LoadingBar loading={loading} theme={theme} />
 
       <Header
         dark={dark}

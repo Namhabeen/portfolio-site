@@ -14,8 +14,15 @@ import { useScrollReveal } from '../hooks/useScrollReveal.js';
  * @returns {JSX.Element}
  */
 export default function About({ lang, positioning, resumeUrl, portfolioUrl, theme }) {
-  const { dark, muted, border, cardBg, sectionAlt, accentBg } = theme;
+  const { dark, muted, border, cardBg, sectionAlt, accentBg, accentBgHover, accentTextOn } = theme;
   const [ref, visible] = useScrollReveal();
+
+  // "주 버튼"(메인컬러 필박스) 스타일. 이력서 버튼은 항상 이 스타일이고,
+  // 포트폴리오 버튼은 이력서 버튼이 없을 때(단독 노출)만 이 스타일을 가져다 쓴다.
+  const primaryButtonClass = `inline-flex items-center gap-2 px-8 py-4 ${accentBg} ${accentTextOn} rounded-full font-medium ${accentBgHover} transition-all hover:-translate-y-0.5`;
+  const secondaryButtonClass = `inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium border transition-all hover:-translate-y-0.5 ${
+    dark ? `${border} hover:bg-white/5` : 'bg-white text-gray-700 border-gray-300 hover:opacity-90'
+  }`;
 
   return (
     <section
@@ -107,7 +114,7 @@ export default function About({ lang, positioning, resumeUrl, portfolioUrl, them
             href={resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center gap-2 px-8 py-4 ${accentBg} text-white rounded-full font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}
+            className={primaryButtonClass}
           >
             <Download size={18} />
             {lang === 'ko' ? '이력서 다운로드' : 'Download Resume'}
@@ -118,9 +125,7 @@ export default function About({ lang, positioning, resumeUrl, portfolioUrl, them
             href={portfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium border transition-all hover:-translate-y-0.5 ${
-              dark ? `${border} hover:bg-white/5` : 'bg-white text-gray-700 border-gray-300 hover:opacity-90'
-            }`}
+            className={resumeUrl ? secondaryButtonClass : primaryButtonClass}
           >
             <FileText size={18} />
             {lang === 'ko' ? '포트폴리오 PDF' : 'Download Portfolio PDF'}

@@ -18,7 +18,7 @@ import Skeleton from './Skeleton.jsx';
  * @returns {JSX.Element}
  */
 export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
-  const { dark, muted, border, accent, accentBg } = theme;
+  const { dark, muted, border, accent, accentBg, accentBgHover, accentTextOn, tagBg } = theme;
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center px-6 pt-24 pb-16 relative">
@@ -27,9 +27,9 @@ export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
           {/* Badge */}
           <div className="relative inline-block">
             <span
-              className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${
-                dark ? 'bg-blue-500/10' : 'bg-blue-50'
-              } ${accent} transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}
+              className={`inline-block text-sm font-medium px-3 py-1 rounded-full ${tagBg} ${accent} transition-opacity duration-300 ${
+                loading ? 'opacity-0' : 'opacity-100'
+              }`}
             >
               {badgeText || 'Product Engineer · AX Engineer'}
             </span>
@@ -102,7 +102,7 @@ export default function Hero({ lang, heroCopy, badgeText, loading, theme }) {
           </div>
 
           <div className="flex flex-wrap gap-3 pt-2">
-            <a href="#projects" className={`px-6 py-3 ${accentBg} text-white rounded-md font-medium hover:opacity-90 transition-all hover:-translate-y-0.5`}>
+            <a href="#projects" className={`px-6 py-3 ${accentBg} ${accentTextOn} rounded-md font-medium ${accentBgHover} transition-all hover:-translate-y-0.5`}>
               {lang === 'ko' ? '프로젝트 보기' : 'View Projects'}
             </a>
             <a href="#about" className={`px-6 py-3 rounded-md font-medium border ${border} hover:bg-white/5 transition-all hover:-translate-y-0.5`}>

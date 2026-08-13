@@ -52,7 +52,8 @@ function doGet(e) {
     badgeText: null,
     pageTitle: null,
     projects: sortByOrder_(allProjects),
-    heroCopy : null
+    heroCopy : null,
+    mainColor: null
   };
 
   if (slug) {
@@ -78,6 +79,7 @@ function doGet(e) {
         projects: filtered,
         heroCopy: config.heroCopy || null,
         featuredIds: config.featuredIds || [],
+        mainColor: config.mainColor || null,
       };
     }
     // 매칭되는 slug가 없거나 노출프로젝트가 비어 있으면 -> 마스터(전체) 버전 그대로 반환
@@ -290,6 +292,7 @@ function parseConfigPage_(page) {
     badgeText: getText_(p['배지문구']),
     pageTitle: getText_(p['페이지타이틀']),
     heroCopy: getText_(p['히어로문구']),
+    mainColor: getText_(p['메인컬러']) || null,
   };
 }
 
@@ -385,7 +388,7 @@ function clearCache() {
  * 캐시를 항상 채워둔다. 이렇게 캐시를 미리 데워두면 실제 방문자 요청이
  * Notion API 왕복 없이 캐시에서 바로 응답받을 수 있다.
  */
-function scheduledWarmCache_() {
+function scheduledWarmCache() {
   getAllProjectsCached_();
 
   const cache = CacheService.getScriptCache();

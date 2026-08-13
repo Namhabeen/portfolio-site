@@ -21,7 +21,7 @@ import { getProjectImageUrl } from '../data/projectImages.js';
  * @returns {JSX.Element}
  */
 export default function ProjectCard({ project, index = 0, onSelect, theme }) {
-  const { dark, text, muted, border, cardBg, accent } = theme;
+  const { dark, text, muted, border, cardBg, accent, tagBg } = theme;
   const [ref, visible] = useScrollReveal();
   const [imgError, setImgError] = useState(false);
 
@@ -54,9 +54,7 @@ export default function ProjectCard({ project, index = 0, onSelect, theme }) {
         )}
         {hasPlaceholder && (
           <div
-            className={`w-full h-48 flex flex-col items-center justify-center gap-1.5 px-6 text-center ${
-              dark ? 'bg-blue-500/10' : 'bg-blue-50'
-            }`}
+            className={`w-full h-48 flex flex-col items-center justify-center gap-1.5 px-6 text-center ${tagBg}`}
           >
             <span className={`text-xs font-semibold tracking-wide ${muted}`}>{project.placeholderCategory}</span>
             {project.placeholderKeywords && (
@@ -76,7 +74,7 @@ export default function ProjectCard({ project, index = 0, onSelect, theme }) {
           <p className={`text-sm ${muted} mb-4 ${showVisual ? 'flex-grow' : ''}`}>{project.summary}</p>
           <div className={`flex flex-wrap gap-2 ${showVisual ? 'mt-auto' : 'mt-6'}`}>
             {(project.jobTags || []).map((tag) => (
-              <span key={tag} className={`text-xs px-2 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent}`}>
+              <span key={tag} className={`text-xs px-2 py-1 rounded-full ${tagBg} ${accent}`}>
                 {tag}
               </span>
             ))}

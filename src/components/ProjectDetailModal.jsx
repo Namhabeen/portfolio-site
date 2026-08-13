@@ -59,7 +59,7 @@ function BulletList({ items, muted, accentBg }) {
  * @returns {JSX.Element}
  */
 export default function ProjectDetailModal({ project, lang, onClose, theme }) {
-  const { bg, muted, border, accent, accentBg, overlayBg, dark } = theme;
+  const { bg, muted, border, accent, accentBg, overlayBg, tagBg } = theme;
   const [imgError, setImgError] = useState(false);
 
   const localImageUrl = getProjectImageUrl(project.notionId);
@@ -96,7 +96,7 @@ export default function ProjectDetailModal({ project, lang, onClose, theme }) {
         <h3 className="text-2xl font-bold mt-1 mb-3">{project.cardName}</h3>
         <div className="flex flex-wrap gap-2 mb-6">
           {(project.jobTags || []).map((tag) => (
-            <span key={tag} className={`text-xs px-2 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent}`}>
+            <span key={tag} className={`text-xs px-2 py-1 rounded-full ${tagBg} ${accent}`}>
               {tag}
             </span>
           ))}

@@ -50,7 +50,7 @@ function orderProjects(projects, featuredIds) {
  * @returns {JSX.Element}
  */
 export default function Projects({ lang, projects, featuredIds, loading, error, onSelectProject, theme }) {
-  const { muted, border, bg, cardBg, dark, sectionAlt, accent, accentBg } = theme;
+  const { muted, border, bg, cardBg, dark, sectionAlt, accent, accentBg, tagBg } = theme;
   const [headingRef, headingVisible] = useScrollReveal();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -120,9 +120,7 @@ export default function Projects({ lang, projects, featuredIds, loading, error, 
                 >
                   <span>{lang === 'ko' ? '프로젝트 더 보기' : 'Show more'}</span>
                   <span
-                    className={`inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full text-xs font-semibold ${
-                      dark ? 'bg-blue-500/10' : 'bg-blue-50'
-                    } ${accent}`}
+                    className={`inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full text-xs font-semibold ${tagBg} ${accent}`}
                   >
                     {remaining}
                   </span>

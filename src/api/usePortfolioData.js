@@ -76,6 +76,7 @@ if (typeof window !== 'undefined') {
  *   portfolioUrl: string | null,
  *   heroCopy: string | null,
  *   featuredIds: string[],
+ *   mainColor: string | null,
  *   loading: boolean,
  *   error: string | null,
  * }} The current fetch state.
@@ -89,6 +90,7 @@ export function usePortfolioData() {
   const [portfolioUrl, setPortfolioUrl] = useState(null);
   const [heroCopy, setHeroCopy] = useState(null);
   const [featuredIds, setFeaturedIds] = useState([]);
+  const [mainColor, setMainColor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -106,6 +108,7 @@ export function usePortfolioData() {
         setPortfolioUrl(data.portfolioUrl || null);
         setHeroCopy(data.heroCopy || null);
         setFeaturedIds(data.featuredIds || []);
+        setMainColor(data.mainColor || null);
         setLoading(false);
       })
       .catch((err) => {
@@ -119,5 +122,5 @@ export function usePortfolioData() {
     };
   }, []);
 
-  return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, loading, error };
+  return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, mainColor, loading, error };
 }

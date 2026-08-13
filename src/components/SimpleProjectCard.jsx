@@ -16,7 +16,7 @@ import { useScrollReveal } from '../hooks/useScrollReveal.js';
  * @returns {JSX.Element}
  */
 export default function SimpleProjectCard({ project, index = 0, onSelect, theme }) {
-  const { dark, muted, border, cardBg, accent } = theme;
+  const { dark, muted, border, cardBg, accent, tagBg } = theme;
   const [ref, visible] = useScrollReveal();
 
   return (
@@ -44,7 +44,7 @@ export default function SimpleProjectCard({ project, index = 0, onSelect, theme 
         <p className={`text-sm ${muted} mb-4`}>{project.summary}</p>
         <div className="flex flex-wrap gap-2 mt-6">
           {(project.jobTags || []).map((tag) => (
-            <span key={tag} className={`text-xs px-2 py-1 rounded-full ${dark ? 'bg-blue-500/10' : 'bg-blue-50'} ${accent}`}>
+            <span key={tag} className={`text-xs px-2 py-1 rounded-full ${tagBg} ${accent}`}>
               {tag}
             </span>
           ))}
