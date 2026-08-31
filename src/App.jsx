@@ -27,7 +27,7 @@ export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
 
-  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, mainColor, loading, error } = usePortfolioData();
+  const { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, mainColor, profileHidden, loading, error } = usePortfolioData();
   const theme = getTheme(dark, mainColor);
 
   const mainProjects = useMemo(() => projects.filter((p) => p.section !== '기타경험'), [projects]);
@@ -39,6 +39,18 @@ export default function Portfolio() {
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) ogTitle.setAttribute('content', pageTitle);
   }, [pageTitle]);
+
+  // Lock page scroll until the initial portfolio data fetch resolves, so
+  // visitors can't scroll past the still-loading (skeleton) Hero/Projects
+  // sections before real content is in.
+  useEffect(() => {
+    if (!loading) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [loading]);
 
   return (
     <div
@@ -67,7 +79,7 @@ export default function Portfolio() {
         theme={theme}
       />
 
-      <Hero lang={lang} heroCopy={heroCopy} badgeText={badgeText} loading={loading} theme={theme} />
+      <Hero lang={lang} heroCopy={heroCopy} badgeText={badgeText} profileHidden={profileHidden} loading={loading} theme={theme} />
       <About lang={lang} positioning={positioning} resumeUrl={resumeUrl} portfolioUrl={portfolioUrl} theme={theme} />
       <Skills lang={lang} theme={theme} />
       <Projects

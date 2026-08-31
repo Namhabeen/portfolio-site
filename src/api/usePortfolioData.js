@@ -77,6 +77,7 @@ if (typeof window !== 'undefined') {
  *   heroCopy: string | null,
  *   featuredIds: string[],
  *   mainColor: string | null,
+ *   profileHidden: boolean,
  *   loading: boolean,
  *   error: string | null,
  * }} The current fetch state.
@@ -91,6 +92,7 @@ export function usePortfolioData() {
   const [heroCopy, setHeroCopy] = useState(null);
   const [featuredIds, setFeaturedIds] = useState([]);
   const [mainColor, setMainColor] = useState(null);
+  const [profileHidden, setProfileHidden] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -109,6 +111,7 @@ export function usePortfolioData() {
         setHeroCopy(data.heroCopy || null);
         setFeaturedIds(data.featuredIds || []);
         setMainColor(data.mainColor || null);
+        setProfileHidden(Boolean(data.profileHidden));
         setLoading(false);
       })
       .catch((err) => {
@@ -122,5 +125,5 @@ export function usePortfolioData() {
     };
   }, []);
 
-  return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, mainColor, loading, error };
+  return { projects, positioning, resumeUrl, badgeText, pageTitle, portfolioUrl, heroCopy, featuredIds, mainColor, profileHidden, loading, error };
 }
