@@ -42,7 +42,10 @@ export default function Portfolio() {
 
   // Lock page scroll until the initial portfolio data fetch resolves, so
   // visitors can't scroll past the still-loading (skeleton) Hero/Projects
-  // sections before real content is in.
+  // sections before real content is in. `scrollbar-gutter: stable` on
+  // `html` (see index.css) keeps the scrollbar's gutter reserved the whole
+  // time, so toggling `overflow: hidden` here doesn't change the viewport
+  // width and nothing shifts sideways when this unlocks.
   useEffect(() => {
     if (!loading) return;
     const previousOverflow = document.body.style.overflow;
@@ -76,6 +79,7 @@ export default function Portfolio() {
         setLang={setLang}
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
+        loading={loading}
         theme={theme}
       />
 

@@ -180,7 +180,12 @@ export default function Hero({ lang, heroCopy, badgeText, profileHidden, loading
           </div>
         )}
       </div>
-      <a href="#about" className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center ${muted} hover:${accent} transition-colors`}>
+      <a
+        href="#about"
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center ${muted} hover:${accent} transition-colors transition-opacity duration-300 ${
+          loading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
         <ArrowDown size={20} className="animate-bounce" />
       </a>
     </section>

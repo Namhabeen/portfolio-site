@@ -12,6 +12,7 @@ import { NAV } from '../data/nav.js';
  * @param {(lang: 'ko' | 'en') => void} props.setLang - Switches language.
  * @param {boolean} props.menuOpen - Whether the mobile menu is expanded.
  * @param {(open: boolean) => void} props.setMenuOpen - Toggles the mobile menu.
+ * @param {boolean} [props.loading] - Whether portfolio data (including the company's `mainColor`) is still being fetched. While true, the accent-colored dot after the logo is kept invisible so it doesn't flash the default blue before fading in already in its final brand color.
  * @param {import('../theme.js').Theme} props.theme - Derived Tailwind class tokens.
  * @returns {JSX.Element}
  */
@@ -21,14 +22,15 @@ import { NAV } from '../data/nav.js';
 // the toggle back.
 const SHOW_LANG_TOGGLE = false;
 
-export default function Header({ dark, setDark, lang, setLang, menuOpen, setMenuOpen, theme }) {
+export default function Header({ dark, setDark, lang, setLang, menuOpen, setMenuOpen, loading, theme }) {
   const { text, muted, headerBg, border, accent } = theme;
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 ${headerBg} backdrop-blur-md border-b ${border}`}>
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
         <a href="#home" className="text-lg font-bold tracking-tight">
-          남하빈<span className={accent}>.</span>
+          남하빈
+          <span className={`${accent} transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-100'}`}>.</span>
         </a>
         <nav className="hidden md:flex items-center gap-1">
           {NAV.map((n) => (

@@ -4,6 +4,14 @@
 
 html {
   scroll-behavior: smooth;
+  /* Always reserve the vertical scrollbar's gutter, whether or not the
+     page is actually scrollable right now. Without this, toggling body's
+     `overflow: hidden` (see the initial-load scroll lock in App.jsx) makes
+     the scrollbar disappear and reappear, which changes the viewport width
+     `position: fixed` elements (the header) lay out against — so the
+     header visibly shifts sideways the instant loading finishes. Reserving
+     the gutter permanently keeps that width constant across the toggle. */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: reduce) {
